@@ -19,7 +19,6 @@
             display: flex;
         }
     </style>
-</head>
 
 <body>
     <h1>Find the treasure by Prem Rakesh</h1>
@@ -29,10 +28,40 @@
     <p style="color:green;" onclick="help()"><b>Click for help.</b></p>
     <p id="help">Help report</p>
     <div class="row">
-        <!-- Your image elements here -->
+        <div class="column"><img src="map.jpg" id="img1" onclick="check(0)"></div>
+        <div class="column"><img src="map.jpg" id="img2" onclick="check(1)"></div>
+        <div class="column"><img src="map.jpg" id="img3" onclick="check(2)"></div>
+        <div class="column"><img src="map.jpg" id="img4" onclick="check(3)"></div>
+        <div class="column"><img src="map.jpg" id="img5" onclick="check(4)"></div>
     </div>
-
-    <button onclick="newGame()">New Game</button>
+    <div class="row">
+        <div class="column"><img src="map.jpg" id="img6" onclick="check(5)"></div>
+        <div class="column"><img src="map.jpg" id="img7" onclick="check(6)"></div>
+        <div class="column"><img src="map.jpg" id="img8" onclick="check(7)"></div>
+        <div class="column"><img src="map.jpg" id="img9" onclick="check(8)"></div>
+        <div class="column"><img src="map.jpg" id="img10" onclick="check(9)"></div>
+    </div>
+    <div class="row">
+        <div class="column"><img src="map.jpg" id="img11" onclick="check(10)"></div>
+        <div class="column"><img src="map.jpg" id="img12" onclick="check(11)"></div>
+        <div class="column"><img src="map.jpg" id="img13" onclick="check(12)"></div>
+        <div class="column"><img src="map.jpg" id="img14" onclick="check(13)"></div>
+        <div class="column"><img src="map.jpg" id="img15" onclick="check(14)"></div>
+    </div>
+    <div class="row">
+        <div class="column"><img src="map.jpg" id="img16" onclick="check(15)"></div>
+        <div class="column"><img src="map.jpg" id="img17" onclick="check(16)"></div>
+        <div class="column"><img src="map.jpg" id="img18" onclick="check(17)"></div>
+        <div class="column"><img src="map.jpg" id="img19" onclick="check(18)"></div>
+        <div class="column"><img src="map.jpg" id="img20" onclick="check(19)"></div>
+    </div>
+    <div class="row">
+        <div class="column"><img src="map.jpg" id="img21" onclick="check(20)"></div>
+        <div class="column"><img src="map.jpg" id="img22" onclick="check(21)"></div>
+        <div class="column"><img src="map.jpg" id="img23" onclick="check(22)"></div>
+        <div class="column"><img src="map.jpg" id="img24" onclick="check(23)"></div>
+        <div class="column"><img src="map.jpg" id="img25" onclick="check(24)"></div>
+    </div>
 
     <script>
         let gameOver = false;
@@ -40,36 +69,62 @@
         let penalty = 0;
         let lastCheck = -1;
         const ids = ["img1", "img2", "img3", "img4", "img5", "img6", "img7", "img8", "img9", "img10", "img11", "img12", "img13", "img14", "img15", "img16", "img17", "img18", "img19", "img20", "img21", "img22", "img23", "img24", "img25"];
-        let treasureLocation = -1; // Initialize to an invalid location
-        let trapLocation = -1; // Initialize to an invalid location
+        const treasureLocation = Math.floor(Math.random() * 25);
+        const trapLocation = Math.floor(Math.random() * 25);
 
-        function newGame() {
-            // Reset the game
-            gameOver = false;
-            checkCount = 0;
-            penalty = 0;
-            lastCheck = -1;
+        function check(position) {
+            if (gameOver) {
+                return;
+            }
 
-            // Generate new random positions for trap and treasure
-            treasureLocation = Math.floor(Math.random() * 25);
-            trapLocation = Math.floor(Math.random() * 25);
+            const id = ids[position];
+            const imageElement = document.getElementById(id);
 
-            // Reset the images
-            for (const id of ids) {
-                const imageElement = document.getElementById(id);
-                imageElement.src = 'map.jpg';
+            if (position === treasureLocation) {
+                imageElement.src = 'Treasure.jpg';
+                gameOver = true;
+                penalty -= 3;
+            } else if (position === trapLocation) {
+                imageElement.src = 'trap.png';
+                gameOver = true;
+                penalty += 4;
+            } else {
+                imageElement.src = 'pirate.jpg';
+                checkCount++;
+                penalty++;
             }
 
             const locationsElement = document.getElementById('locations');
-            locationsElement.textContent = `Number of locations checked is zero.`;
+            locationsElement.textContent = `Number of locations checked is ${checkCount}`;
 
             const penaltyElement = document.getElementById('penalty');
-            penaltyElement.textContent = `Penalty is zero.`;
+            penaltyElement.textContent = `Penalty is ${penalty}`;
 
-            document.getElementById('help').textContent = '';
+            lastCheck = position;
         }
 
-        // Rest of your existing code for check() and help() functions...
+        function help() {
+            const treasureRow = Math.floor(treasureLocation / 5);
+            const treasureCol = treasureLocation % 5;
+            const lastRow = Math.floor(lastCheck / 5);
+            const lastCol = lastCheck % 5;
+            const rowDiff = Math.abs(treasureRow - lastRow);
+            const colDiff = Math.abs(treasureCol - lastCol);
+
+            if ((rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1)) {
+                penalty += 2;
+                const penaltyElement = document.getElementById('penalty');
+                penaltyElement.textContent = `Penalty is ${penalty}`;
+                document.getElementById('help').textContent = 'Can smell it';
+            } else if (rowDiff + colDiff === 2) {
+                penalty += 2;
+                const penaltyElement = document.getElementById('penalty');
+                penaltyElement.textContent = `Penalty is ${penalty}`;
+                document.getElementById('help').textContent = 'Close Matie';
+            } else {
+                document.getElementById('help').textContent = 'Step Faster';
+            }
+        }
     </script>
 </body>
 </html>
