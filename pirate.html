@@ -62,15 +62,15 @@
         <div class="column"><img src="map.jpg" id="img24" onclick="check(23)"></div>
         <div class="column"><img src="map.jpg" id="img25" onclick="check(24)"></div>
     </div>
-
+    <button onclick="newGame()">New Game</button>
     <script>
         let gameOver = false;
         let checkCount = 0;
         let penalty = 0;
         let lastCheck = -1;
         const ids = ["img1", "img2", "img3", "img4", "img5", "img6", "img7", "img8", "img9", "img10", "img11", "img12", "img13", "img14", "img15", "img16", "img17", "img18", "img19", "img20", "img21", "img22", "img23", "img24", "img25"];
-        const treasureLocation = Math.floor(Math.random() * 25);
-        const trapLocation = Math.floor(Math.random() * 25);
+        var treasureLocation = Math.floor(Math.random() * 25);
+        var trapLocation = Math.floor(Math.random() * 25);
 
         function check(position) {
             if (gameOver) {
@@ -125,6 +125,30 @@
                 document.getElementById('help').textContent = 'Step Faster';
             }
         }
+        function newGame() {
+    gameOver = false;
+    checkCount = 0;
+    penalty = 0;
+    lastCheck = -1;
+
+    treasureLocation = Math.floor(Math.random() * 25);
+    trapLocation = Math.floor(Math.random() * 25);
+
+    for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const imageElement = document.getElementById(id);
+        imageElement.src = 'map.jpg';
+    }
+
+    const locationsElement = document.getElementById('locations');
+    locationsElement.textContent = 'Number of locations checked is zero.';
+
+    const penaltyElement = document.getElementById('penalty');
+    penaltyElement.textContent = 'Penalty is zero.';
+
+    document.getElementById('help').textContent = '';
+}
+
     </script>
 </body>
 </html>
