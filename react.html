@@ -18,12 +18,19 @@
   <button onclick="recordTime()">React</button>
   <script>
     let reactTime;
+    
+    function getRandomStartingValue() {
+        return Math.floor(Math.random() * 9) + 2; 
+    }
+
+    let startingValue = getRandomStartingValue();
 
     function startTime() {
-        for (let i = 0; i < 9; i++) {
+        document.getElementById('counter').innerHTML = 0; 
+        for (let i = 0; i < startingValue - 1; i++) {
             setTimeout(function() {
-                document.getElementById('counter').innerHTML = i;
-            }, (8 - i) * 1000);
+                document.getElementById('counter').innerHTML = i + 1;
+            }, (i + 1) * 1000);
         }
 
         setTimeout(function() {
@@ -34,12 +41,12 @@
                 const elapsedTime = endTime - reactTime;
                 document.getElementById('target').innerHTML = 'Time was ' + elapsedTime + ' ms';
             }
-        }, 8000);
+        }, startingValue * 1000);
     }
 
     function recordTime() {
         reactTime = Date.now();
     }
-</script>
+  </script>
 </body>
 </html>

@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html> <head>
-    <title>merger page</title> 
+<html>
+<head>
+    <title>Merger page</title>
     <style>
-    .flex-container {
-      display: flex;  flex-direction:row;
-      background-color: red;
-  }
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            background-color: red;
+        }
 
-.flex-container > div {  /*div children of the flex container*/
-  background-color: #f1f1f1; 
-  margin: 10px;  padding: 20px;  font-size: 30px;
-}
+        .flex-container > div {
+            background-color: #f1f1f1;
+            margin: 10px;
+            padding: 20px;
+            font-size: 30px;
+        }
 
-/* Responsive layout */
-@media (max-width: 600px) { 
-	 .flex-container{
-		 flex-direction:column;
-		 background-color: green;
-	  }
-	}
-</style></head>
+        /* Responsive layout */
+        @media (max-width: 600px) {
+            .flex-container {
+                flex-direction: column;
+                background-color: green;
+            }
+        }
+    </style>
+</head>
 
 <body>
     <div>
@@ -29,6 +34,7 @@
         <button onclick="addEnd()">Add end</button>
         <button onclick="addFront()">Add front</button>
         <button onclick="remove()">Remove</button>
+        <button onclick="swapElements()">Swap</button> <!-- Add the "Swap" button -->
     </div>
 
     <div class="flex-container" id="target">
@@ -40,44 +46,54 @@
     <script>
         function addEnd() {
             let element = document.createElement("div");
-
             let inputValue = document.getElementById('inputText').value;
-
             element.innerHTML = inputValue;
-
             element.className = "merger";
-
             let container = document.getElementById('target');
             container.appendChild(element);
         }
 
         function addFront() {
             let element = document.createElement("div");
-
             let inputValue = document.getElementById('inputText').value;
-
             element.innerHTML = inputValue;
-
             element.className = "merger";
-
             let container = document.getElementById('target');
-
             container.insertBefore(element, container.firstChild);
         }
 
         function remove() {
             let mergerItems = document.getElementsByClassName("merger");
-
             let length = mergerItems.length;
-
             if (length > 0) {
                 let middleIndex = Math.floor(length / 2);
-
                 let container = document.getElementById('target');
                 container.removeChild(mergerItems[middleIndex]);
             }
         }
+
+        function swapElements() {
+            let mergerItems = document.getElementsByClassName("merger");
+            let length = mergerItems.length;
+
+            if (length >= 2) {
+                // Randomly select two different elements
+                let index1, index2;
+                do {
+                    index1 = Math.floor(Math.random() * length);
+                    index2 = Math.floor(Math.random() * length);
+                } while (index1 === index2);
+
+                let container = document.getElementById('target');
+
+                // Get the two elements to swap
+                let item1 = mergerItems[index1];
+                let item2 = mergerItems[index2];
+
+                // Swap the two elements without removing them
+                container.insertBefore(item2, item1);
+            }
+        }
     </script>
 </body>
-
 </html>
